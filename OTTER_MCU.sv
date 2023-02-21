@@ -22,15 +22,22 @@ module OTTER_MCU(
     
     // PC
     logic [31:0] PC_4;
+    logic [31:0] PC_OUT;
     
     // 6:1 Mux entering the PC.
     logic [31:0] PC_DIN;
+    
+    // SET TO ZERO UNTIL IMPLEMENTED.
+    logic MTVEC, MEPC;
+    assign MTVEC = 0;
+    assign MEPC = 0;
+    
     always_comb begin
-        case (pcSOURCE)
-            3'b000: PC_DIN <= PC4;
-            3'b001: PC_DIN <= JALR;
-            3'b010: PC_DIN <= BRANCH;
-            3'b011: PC_DIN <= JAL;
+        case (pcSource)
+            3'b000: PC_DIN <= PC_4;
+            3'b001: PC_DIN <= jalr;
+            3'b010: PC_DIN <= branch;
+            3'b011: PC_DIN <= jal;
             3'b100: PC_DIN <= MTVEC;
             3'b101: PC_DIN <= MEPC;
             default: PC_DIN <= 32'h42424242;
@@ -48,7 +55,7 @@ module OTTER_MCU(
     logic [31:0] ir;
     logic [13:0] PC_15_2;
     
-    assign PC_15_2 = PC[15:2];
+    assign PC_15_2 = {PC_OUT[15:2]};
     
     // memory module.
     MEMORY memory(.MEM_CLK(CLK), .MEM_RDEN1(memRDEN1), .MEM_RDEN2(memRDEN2), .MEM_WE2(memWE2), 
@@ -61,6 +68,11 @@ module OTTER_MCU(
     // REG_FILE
     // 4:1 Mux entering the REG_FILE.
     logic [31:0] wd;
+    
+    // SET ZERO UNTIL CSR IS IMPLEMENTED
+    logic csr_RD;
+    assign csr_RD = 0;
+    
     always_comb begin
         case (rf_wr_sel)
             2'b00: wd = PC_4;
@@ -77,7 +89,7 @@ module OTTER_MCU(
     assign wa = ir[11:7];
     
     // reg_file module.
-    REG_FILE reg_file(.RF_ADDR1(adr1), .RF_ADR2(adr2), .RF_EN(regWrite), .RF_WA(wa), .RF_WD(wd), 
+    REG_FILE reg_file(.RF_ADR1(adr1), .RF_ADR2(adr2), .RF_EN(regWrite), .RF_WA(wa), .RF_WD(wd), 
         .clk(CLK), .RF_RS1(rs1), .RF_RS2(rs2));
         
     // END OF REG_FILE.
@@ -109,7 +121,7 @@ module OTTER_MCU(
     // 3:1 Mux going into srcA.
     logic [31:0] srcA;
     always_comb begin
-        case (alu_srcA)
+        case (srcA)
             2'b00: srcA = rs1;
             2'b01: srcA = U_TYPE;
             2'b10: srcA = ~rs1;
@@ -120,7 +132,7 @@ module OTTER_MCU(
     // 5:1 Mux going into srcB.
     logic [31:0] srcB;
     always_comb begin
-        case (alu_srcB)
+        case (srcB)
             3'b000: srcB = rs2;
             3'b001: srcB = I_TYPE;
             3'b010: srcB = S_TYPE;
@@ -134,3 +146,23 @@ module OTTER_MCU(
     ALU alu(.srcA(srcA), .srcB(srcB), .alu_fun(alu_fun), .result(result));
     
     // END OF ALU.
+    
+    // cu_fsm module.
+    
+    logic csr_WE, int_taken, mret_exec;
+    assign csr_WE = 0;
+    assign int_taken = 0;
+    assign mret_exec = 0;
+    
+    CU_FSM cu_fsm(.RST(RST), .ir6_0(ir[6:0]), .ir14_12(ir[14:12]), .CLK(CLK), .PCWrite(PCWrite), .regWrite(regWrite), .memWE2(memWE2), 
+        .memRDEN1(memRDEN1), .memRDEN2(memRDEN2), .reset(reset), .csr_WE(csr_WE), .int_taken(int_taken), .mret_exec(mret_exec));
+        
+    // END OF CU_FSM.
+    
+    // cu_dcdr
+    
+    CU_DCDR cu_dcdr(.ir14_12(ir[14:12]), .ir30(ir[30]), .ir6_0(ir[6:0]), .int_taken(int_taken), .br_eq(br_eq), .br_lt(br_lt), .br_ltu(br_ltu), 
+        .alu_fun(alu_fun), .alu_srcA(srcA), .alu_srcB(srcB), .pcSource(pcSource), .rf_wr_sel(rf_wr_sel)); 
+    
+    
+endmodule
