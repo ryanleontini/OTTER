@@ -30,21 +30,18 @@ module REG_FILE(
         end
     end
     
+    // Need to make RAM memory async
+    always begin
+        RF_RS1 <= ram[RF_ADR1];
+        RF_RS2 <= ram[RF_ADR2];
+    end
     
-
-
-
-
-
-
     always_ff @ (posedge clk) begin
         if (RF_EN) begin
             if (RF_WA != 1'd0) begin
                 ram[RF_WA] <= RF_WD;
             end
         end
-        RF_RS1 <= ram[RF_ADR1];
-        RF_RS2 <= ram[RF_ADR2];
     end
     
 endmodule
