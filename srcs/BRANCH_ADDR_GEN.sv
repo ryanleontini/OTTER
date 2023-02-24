@@ -6,7 +6,8 @@
 // Create Date: 02/08/2023 07:20:12 PM
 // Module Name: BRANCH_ADDR_GEN
 // Target Devices: Basys3
-// Description: This design generates the jal, branch, and jalr      // addresses from PC, JType, BType, IType and rs1 inputs. 
+// Description: This design generates the jal, branch, and jalr      
+// addresses from PC, JType, BType, IType and rs1 inputs. 
 /////////////////////////////////////////////////////////////////////
 
 
