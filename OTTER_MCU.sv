@@ -20,6 +20,11 @@ module OTTER_MCU(
     output IOBUS_WR
     );
     
+    // UNUSED IO
+    assign IOBUS_OUT = 0;
+    assign IOBUS_ADDR = 0;
+    assign IOBUS_WR = 0;
+    
     // PC
     logic [31:0] jalr, branch, jal;
     logic MTVEC, MEPC, reset, PCWrite;
@@ -139,7 +144,7 @@ module OTTER_MCU(
     // ALU
 
     // 3:1 Mux going into srcA.
-    logic [31:0] srcA;
+
     always_comb begin
         case (alu_srcA)
             2'b00: srcA = rs1;
@@ -150,7 +155,6 @@ module OTTER_MCU(
     end
     
     // 5:1 Mux going into srcB.
-    logic [31:0] srcB;
     always_comb begin
         case (alu_srcB)
             3'b000: srcB = rs2;
@@ -169,7 +173,6 @@ module OTTER_MCU(
     
     // CU_FSM
     
-    assign csr_WE = 0;
     assign int_taken = 0;
     assign mret_exec = 0;
     
