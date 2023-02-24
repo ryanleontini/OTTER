@@ -6,11 +6,13 @@ Implementing the 32-Bit RISC-V OTTER microcontroller. This implementation of the
 
 This simulation shows the OTTER_MCU running the assembly instructions shown below:
 
+```
 main: 	lui x5, 0xAA055
 	addi x8, x5, 0x765
 	slli x10, x8, 3
 	slt x12, x5, x8
 	xor x13, x8, x10
 	beq x0, x0, main
+```
 
 ![OTTER_SIMULATION](https://github.com/ryanleontini/OTTER/blob/main/imgs/miniOTTERsim.PNG?raw=true)
