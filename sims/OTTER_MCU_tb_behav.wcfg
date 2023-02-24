@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="OTTER_MCU_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="OTTER_MCU_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="150.001 ns"></ZoomEndTime>
+      <Cursor1Time time="150.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="114"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="31" />
+   <wvobject fp_name="/OTTER_MCU_tb/RST" type="logic">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/cu_fsm/PS" type="array">
+      <obj_property name="ElementShortName">PS[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PS[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/pc/PC_RST" type="logic">
+      <obj_property name="ElementShortName">PC_RST</obj_property>
+      <obj_property name="ObjectShortName">PC_RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/CLK" type="logic">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/pc/PC_COUNT" type="array">
+      <obj_property name="ElementShortName">PC_COUNT[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PC_COUNT[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/pcSource" type="array">
+      <obj_property name="ElementShortName">pcSource[2:0]</obj_property>
+      <obj_property name="ObjectShortName">pcSource[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/pc/PC_WRITE" type="logic">
+      <obj_property name="ElementShortName">PC_WRITE</obj_property>
+      <obj_property name="ObjectShortName">PC_WRITE</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/rf_wr_sel" type="array">
+      <obj_property name="ElementShortName">rf_wr_sel[1:0]</obj_property>
+      <obj_property name="ObjectShortName">rf_wr_sel[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/regWrite" type="logic">
+      <obj_property name="ElementShortName">regWrite</obj_property>
+      <obj_property name="ObjectShortName">regWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/alu_srcA" type="array">
+      <obj_property name="ElementShortName">alu_srcA[1:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_srcA[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/alu_srcB" type="array">
+      <obj_property name="ElementShortName">alu_srcB[2:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_srcB[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/alu/alu_fun" type="array">
+      <obj_property name="ElementShortName">alu_fun[3:0]</obj_property>
+      <obj_property name="ObjectShortName">alu_fun[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/alu/result" type="array">
+      <obj_property name="ElementShortName">result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">result[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/RF_ADR1" type="array">
+      <obj_property name="ElementShortName">RF_ADR1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">RF_ADR1[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/RF_RS1" type="array">
+      <obj_property name="ElementShortName">RF_RS1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RF_RS1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/alu/srcA" type="array">
+      <obj_property name="ElementShortName">srcA[31:0]</obj_property>
+      <obj_property name="ObjectShortName">srcA[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/RF_ADR2" type="array">
+      <obj_property name="ElementShortName">RF_ADR2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">RF_ADR2[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/RF_RS2" type="array">
+      <obj_property name="ElementShortName">RF_RS2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">RF_RS2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/alu/srcB" type="array">
+      <obj_property name="ElementShortName">srcB[31:0]</obj_property>
+      <obj_property name="ObjectShortName">srcB[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/RF_WA" type="array">
+      <obj_property name="ElementShortName">RF_WA[4:0]</obj_property>
+      <obj_property name="ObjectShortName">RF_WA[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/ir" type="array">
+      <obj_property name="ElementShortName">ir[31:0]</obj_property>
+      <obj_property name="ObjectShortName">ir[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/immed_gen/U_TYPE" type="array">
+      <obj_property name="ElementShortName">U_TYPE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">U_TYPE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/immed_gen/I_TYPE" type="array">
+      <obj_property name="ElementShortName">I_TYPE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">I_TYPE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/immed_gen/S_TYPE" type="array">
+      <obj_property name="ElementShortName">S_TYPE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">S_TYPE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/immed_gen/B_TYPE" type="array">
+      <obj_property name="ElementShortName">B_TYPE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">B_TYPE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/immed_gen/J_TYPE" type="array">
+      <obj_property name="ElementShortName">J_TYPE[31:0]</obj_property>
+      <obj_property name="ObjectShortName">J_TYPE[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/ram[5]" type="array">
+      <obj_property name="ElementShortName">[5][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/ram[8]" type="array">
+      <obj_property name="ElementShortName">[8][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[8][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/ram[10]" type="array">
+      <obj_property name="ElementShortName">[10][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[10][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/ram[12]" type="array">
+      <obj_property name="ElementShortName">[12][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[12][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/OTTER_MCU_tb/UUT/reg_file/ram[13]" type="array">
+      <obj_property name="ElementShortName">[13][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[13][31:0]</obj_property>
+   </wvobject>
+</wave_config>
