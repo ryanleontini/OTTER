@@ -1,4 +1,4 @@
-# OTTER
+# OTTER_MCU
 
 Implementing the 32-Bit RISC-V OTTER microcontroller.
 
