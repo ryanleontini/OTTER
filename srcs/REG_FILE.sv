@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 // Company: Cal Poly
 // Engineer: Ryan Leontini
 // 
@@ -8,7 +8,8 @@
 // Target Devices: Basys3
 // Description: A 32x32 REG_FILE with enable in.
 // 
-/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
 
 module REG_FILE(
     input [4:0] RF_ADR1,
@@ -30,13 +31,10 @@ module REG_FILE(
         end
     end
     
-    // Need to make RAM memory async
-    always begin
-        RF_RS1 <= ram[RF_ADR1];
-        RF_RS2 <= ram[RF_ADR2];
-    end
+    assign  RF_RS1 = ram[RF_ADR1];
+    assign  RF_RS2 = ram[RF_ADR2];
     
-    always_ff @ (posedge clk) begin
+    always @ (posedge clk) begin
         if (RF_EN) begin
             if (RF_WA != 1'd0) begin
                 ram[RF_WA] <= RF_WD;
