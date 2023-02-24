@@ -36,6 +36,8 @@ module CU_FSM(
     typedef enum {ST_INIT, ST_FETCH, ST_EXEC, ST_WRITEBACK} STATES;
     STATES PS, NS;
     
+    assign csr_WE = 0;
+    
     // FSM State Register
     always_ff @(posedge CLK) begin
         if (RST == 1'b1)
