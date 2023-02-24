@@ -55,31 +55,31 @@ module CU_DCDR(
                             alu_fun = 4'b1000;
                         end
                     end
-                    //or
+                    // or
                     3'b110: begin
                         alu_fun = 4'b0110;
                     end
-                    //and
+                    // and
                     3'b111: begin
                         alu_fun = 4'b0111;
                     end
-                    //xor
+                    // xor
                     3'b100: begin
                         alu_fun = 4'b0100;
                     end
-                    //sll
+                    // sll
                     3'b001: begin
                         alu_fun = 4'b0001;
                     end
-                    //sra
+                    // sra
                     3'b101: begin
                         alu_fun = 4'b1101;
                     end
-                    //slt
+                    // slt
                     3'b010: begin
                         alu_fun = 4'b0010;
                     end
-                    //sltu
+                    // sltu
                     3'b011: begin
                         alu_fun = 4'b0011;
                     end
@@ -90,19 +90,58 @@ module CU_DCDR(
             end
             // I-Type (load)
             7'b0000011:begin
+                
             end
-            // I-Type
+            // I-Type (jump)
+            7'b1100111: begin
+                case(ir14_12)
+                    // jalr
+                    3'b000: begin
+                        pcSource = 1;
+                    end
+                endcase
+            end
+            // I-Type (alu)
             7'b0010011: begin
                 rf_wr_sel = 2'b11;
                 alu_srcB = 3'b001;
                 case(ir14_12)
-                    //addi
+                    // addi
                     3'b000: begin
                         alu_fun = 4'b0000;
                     end
-                    //slli
+                    // andi
+                    3'b111: begin 
+                        alu_fun = 4'b0111;
+                    end
+                    // ori
+                    3'b110: begin
+                        alu_fun = 4'b0110;
+                    end
+                    // slli
                     3'b001: begin
                         alu_fun = 4'b0001;
+                    end
+                    // slti
+                    3'b010: begin
+                        alu_fun = 4'b0010;
+                    end
+                    // sltiu
+                    3'b011: begin
+                        alu_fun = 4'b0011;
+                    end
+                    // srai & srli
+                    3'b101: begin
+                        if(ir30 == 1'b1)
+                            // srai
+                            alu_fun = 4'b1101;
+                        else if (ir30 == 1'b0)
+                            // srli
+                            alu_fun = 4'b0101;
+                    end
+                    // xori
+                    3'b100: begin
+                        alu_fun = 4'b0100;
                     end
                 endcase
             end
@@ -111,30 +150,58 @@ module CU_DCDR(
             end
             // B-Type
             7'b1100011: begin
-                // beq
-                if (ir14_12 == 3'b000) begin
-                    // branch is equal
-                    if (br_eq == 1'b1) begin
-                        pcSource = 3'd2;
+                case(ir14_12)
+                    // beq
+                    3'b000: begin
+                        // branch is equal
+                        if (br_eq == 1'b1) begin
+                            pcSource = 3'd2;
+                        end
+                        // branch not equal, ignore
                     end
-                    // branch not equal, ignore
-                end
-                // blt
-                if (ir14_12 == 3'b100) begin
-                    // branch is less than
-                    if (br_lt == 1'b1) begin
-                        pcSource = 3'd2;
+                    
+                    // bge
+                    3'b101: begin
+                        // branch if greater than or eq
+                        if (br_lt == 1'b0 || br_eq == 1'b1)
+                            pcSource = 3'd2;
+                        // branch less than u, ignore
                     end
-                    // branch not less than, ignore
-                end
-                // bltu
-                if (ir14_12 == 3'b110) begin
-                    // branch is less than
-                    if (br_ltu == 1'b1) begin
-                        pcSource = 3'd2;
+
+                    // bgeu
+                    3'b111: begin
+                        // branch if greater than or eq, unsigned
+                        if (br_ltu == 1'b0 || br_eq == 1'b1)
+                            pcSource = 3'd2;
+                        // branch less than u, ignore
                     end
-                    // branch not less than, ignore
-                end
+
+                    // blt
+                    3'b100: begin
+                        // branch is less than
+                        if (br_lt == 1'b1) begin
+                            pcSource = 3'd2;
+                        end
+                        // branch not less than, ignore
+                    end
+
+                    // bltu 
+                    3'b110: begin
+                        // branch is less than
+                        if (br_ltu == 1'b1) begin
+                            pcSource = 3'd2;
+                        end
+                        // branch not less than, ignore
+                    end
+
+                    // bne
+                    3'b001: begin
+                        // branch if not equal
+                        if (br_eq == 1'b0)
+                            pcSource = 3'd2;
+                        // branch if equal, ignore
+                    end
+                endcase
             end
             // U-Type (lui)
             7'b0110111: begin
@@ -155,4 +222,3 @@ module CU_DCDR(
     end
             
 endmodule
-
