@@ -85,6 +85,12 @@ module CU_FSM(
                         7'b0010011: begin
                             regWrite = 1'b1;
                         end
+
+                        // I-Type (jalr)
+                        7'b1100111: begin
+                            // Have to save rd
+                            regWrite = 1'b1;
+                        end
                         
                         // S-Type
                         7'b0100011: begin
@@ -93,6 +99,7 @@ module CU_FSM(
                         
                         // B-Type
                         7'b1100011: begin
+                            // don't care
                         end
                             
                         // U-Type (lui)
