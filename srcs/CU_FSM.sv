@@ -86,6 +86,12 @@ module CU_FSM(
                             regWrite = 1'b1;
                         end
 
+                        // I-Type (load)
+                        7'b0000011: begin
+                            PCWrite = 1'b0;
+                            memRDEN2 = 1'b1;
+                        end
+
                         // I-Type (jalr)
                         7'b1100111: begin
                             // Have to save rd
@@ -114,8 +120,7 @@ module CU_FSM(
                         
                         // J-Type 
                         7'b1101111: begin
-                            memRDEN1 = 1'b1;
-                            
+                            memRDEN1 = 1'b1; 
                         end
                         
                         // Default opcode?
