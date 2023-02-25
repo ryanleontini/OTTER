@@ -90,7 +90,7 @@ module CU_DCDR(
             end
             // I-Type (load)
             7'b0000011:begin
-                
+                rf_wr_sel = 2'b10;
             end
             // I-Type (jump)
             7'b1100111: begin
@@ -147,6 +147,18 @@ module CU_DCDR(
             end
             // S-Type
             7'b0100011: begin
+                // Don't think these are needed
+                case(ir14_12)
+                    // sb
+                    3'b000: begin
+                    end
+                    // sh
+                    3'b001: begin
+                    end
+                    // sw
+                    3'b010: begin
+                    end
+                endcase
             end
             // B-Type
             7'b1100011: begin
@@ -211,12 +223,19 @@ module CU_DCDR(
             end
             // U-Type (auipc)
             7'b0010111: begin
+                rf_wr_sel = 2'b11;
+                alu_fun = 4'b0000;
+                alu_srcA = 2'b01;
+                alu_srcB = 3'b011;
             end
             // J-Type
             7'b1101111: begin
-                // pcSource = 
+                // jal
+                pcSource = 3'b011;
+                alu_srcB = 3'b001;                
             end
             default: begin
+                alu_fun = 1111;
             end
         endcase
     end
