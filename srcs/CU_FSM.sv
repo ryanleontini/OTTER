@@ -69,8 +69,11 @@ module CU_FSM(
                 memRDEN1 = 1'b1;
             end
             ST_EXEC: begin
+                // I-Type (load)
                 if (ir6_0 == 7'b0000011) begin
                     NS = ST_WRITEBACK;
+                    PCWrite = 1'b0;
+                    memRDEN2 = 1'b1;
                 end
                 else begin
                     NS = ST_FETCH;
@@ -84,12 +87,6 @@ module CU_FSM(
                         // I-Type
                         7'b0010011: begin
                             regWrite = 1'b1;
-                        end
-
-                        // I-Type (load)
-                        7'b0000011: begin
-                            PCWrite = 1'b0;
-                            memRDEN2 = 1'b1;
                         end
 
                         // I-Type (jalr)
