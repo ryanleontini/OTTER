@@ -20,7 +20,6 @@ module CU_DCDR(
     input [2:0] ir14_12,
     input ir30,
     input [6:0] ir6_0,
-    input int_taken,
     input br_eq,
     input br_lt,
     input br_ltu,
@@ -43,11 +42,12 @@ module CU_DCDR(
             // R-Type
             7'b0110011: begin
                 rf_wr_sel = 2'b11;
-                alu_fun = {ir[30], ir[14:12]};
+                alu_fun = {ir30, ir14_12};
             end
             // I-Type (load)
             7'b0000011:begin
                 rf_wr_sel = 2'b10;
+                alu_srcB = 2'b01;
             end
             // I-Type (jump)
             7'b1100111: begin
@@ -63,17 +63,17 @@ module CU_DCDR(
                 rf_wr_sel = 2'b11;
                 alu_srcB = 3'b001;
                 if (ir14_12 == 3'b101) begin 
-                    alu_fun = {ir[30], ir[14:12]};
+                    alu_fun = {ir30, ir14_12};
                 end
                 else begin
-                    alu_fun = {1'b0, ir14_12}
+                    alu_fun = {1'b0, ir14_12};
                 end
-
 
             end
             // S-Type
             7'b0100011: begin
                 // Don't think these are needed
+                alu_srcB = 2'b10;
                 case(ir14_12)
                     // sb
                     3'b000: begin
