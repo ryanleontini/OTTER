@@ -20,17 +20,14 @@
 module CU_FSM(
     input RST,
     input [6:0] ir6_0,
-    input [2:0] ir14_12,
+//    input [2:0] ir14_12,
     input CLK,
     output logic PCWrite,
     output logic regWrite,
     output logic memWE2,
     output logic memRDEN1,
     output logic memRDEN2,
-    output logic reset,
-    output logic csr_WE,
-    output logic int_taken,
-    output logic mret_exec
+    output logic reset
     );
     
     typedef enum {ST_INIT, ST_FETCH, ST_EXEC, ST_WRITEBACK} STATES;
@@ -55,9 +52,6 @@ module CU_FSM(
         memRDEN1 = 0;
         memRDEN2 = 0;
         reset = 0;
-        csr_WE = 0;
-        int_taken = 0;
-        mret_exec = 0;
         
         case(PS)
             ST_INIT: begin
@@ -118,6 +112,7 @@ module CU_FSM(
                         // J-Type 
                         7'b1101111: begin
                             memRDEN1 = 1'b1; 
+                            regWrite = 1'b1;
                         end
                         
                         // Default opcode?
