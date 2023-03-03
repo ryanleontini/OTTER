@@ -1,13 +1,14 @@
 `timescale 1ns / 1ps
-/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 // Company:  Cal Poly
 // Engineer: Ryan Leontini
 // 
 // Create Date: 01/30/2023 09:44:48 PM
 // Module Name: ALU
 // Target Devices: Basys3
-// Description: An arithmetic logic unit used in the 32bit OTTER MCU.
-/////////////////////////////////////////////////////////////////////
+// Description: An aritmetic logic unit used in the 32bit OTTER MCU.
+// 
+//////////////////////////////////////////////////////////////////////////////////
 
 
 module ALU(
@@ -34,8 +35,7 @@ module ALU(
             // shift left logical (sll)
             4'b0001: result = srcA << srcB[4:0];
             // shift right arithmetic (sra)
-            4'b1101: result = srcA >>> srcB[4:0];
-            
+            4'b1101: result = $signed(srcA) >>> srcB[4:0];
             // set if less than (slt)
             4'b0010: begin
                 if ( $signed(srcA) < $signed(srcB) )
