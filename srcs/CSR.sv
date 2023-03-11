@@ -25,14 +25,16 @@ module CSR(
     input [31:0] PC,
     input [31:0] WD,
     input CLK,
-    output CSR_MSTATUS,
-    output [31:0] CSR_MEPC,
-    output [31:0] CSR_MTVEC,
-    output [31:0] RD
+    output logic CSR_MSTATUS,
+    output logic [31:0] CSR_MEPC,
+    output logic [31:0] CSR_MTVEC,
+    output logic [31:0] RD
     );
     
+    
+    
     // Register setup
-    logic [31:0] csr_ram [0:2];
+    logic [31:0] csr_ram [0:2];    
     
     // reg 0 = MTVEC
     // reg 1 = MSTATUS
@@ -45,39 +47,63 @@ module CSR(
         end
     end
     
+    always_comb begin
+        case(ADDR)
+            // MTVEC
+            12'h305:
+                RD = csr_ram[0];
+            // MSTATUS
+            12'h300:
+                RD = csr_ram[1];
+            12'h341:
+                RD = csr_ram[2];
+        endcase
+        CSR_MSTATUS = csr_ram[1][3];
+    end
+            
     always_ff @ (posedge CLK) begin
+    
+        if (RST == 1'b1) begin
+            int i;
+            for (i = 0; i < 3; i = i + 1) begin
+                csr_ram[i] = 0;
+            end
+        end
+
         // Setting up ISR
         if (WR_EN == 1'b1) begin
-            // CSRRW x0, MTVEC, t0 (Load t0 into MTVEC reg).
-            if (ADDR == 12'h0x305) begin
-                csr_ram[0] = WD;
+            // Load into MTVEC reg.
+            if (ADDR == 12'h305) begin
+                csr_ram[0] <= WD;
             end
-            // CSRRW x0, MSTATUS, t0 (Enable interrupts).
-            if (ADDR == 12'h0x300) begin
-                csr_ram[1][2] = 1'b1;
+            // Enable interrupts.
+            if (ADDR == 12'h300) begin
+                csr_ram[1] <= WD;
+            end
+            // MEPC
+            if (ADDR == 12'h341) begin
+                csr_ram[2] <= WD;
             end
         end
         
         // Running an interrupt.
         if (INT_TAKEN == 1'b1) begin
             // Save PC to MEPC.
-            csr_ram[2] = PC;
+            csr_ram[2] <= PC;
             // Copy MIE bit to MPIE bit.
-            csr_ram[1][6] = csr_ram[1][2];
+            csr_ram[1][7] <= csr_ram[1][3];
             // Clear the MIE bit.
-            csr_ram[1][2] = 1'b0;
+            csr_ram[1][3] <= 1'b0;
 
             CSR_MTVEC <= csr_ram[0];
-            CSR_MSTATUS <= csr_ram[0][2];
         end
         
         // MRET
         if (CSR_MRET == 1'b1) begin
-            CSR_MEPC <= csr_ram[2];
             // Restore MIE bit.
-            csr_ram[1][2] = csr_ram[1][6];
+            csr_ram[1][3] <= csr_ram[1][7];
             // Clear MPIE bit.
-            csr_ram[1][6] = 1'b0;
+            csr_ram[1][7] <= 1'b0;
         end
     end
     
