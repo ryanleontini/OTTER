@@ -18,23 +18,25 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module CU_FSM(
-    input RST,
+    input RST, 
+    input INTR,
     input [6:0] ir6_0,
-//    input [2:0] ir14_12,
+    input [2:0] ir14_12,
     input CLK,
     output logic PCWrite,
     output logic regWrite,
     output logic memWE2,
     output logic memRDEN1,
     output logic memRDEN2,
-    output logic reset
+    output logic reset,
+    output logic csr_WE,
+    output logic int_taken,
+    output logic mret_exec
     );
     
-    typedef enum {ST_INIT, ST_FETCH, ST_EXEC, ST_WRITEBACK} STATES;
+    typedef enum {ST_INIT, ST_FETCH, ST_EXEC, ST_WRITEBACK, ST_INTRPT} STATES;
     STATES PS, NS;
-    
-    assign csr_WE = 0;
-    
+        
     // FSM State Register
     always_ff @(posedge CLK) begin
         if (RST == 1'b1)
@@ -52,6 +54,9 @@ module CU_FSM(
         memRDEN1 = 0;
         memRDEN2 = 0;
         reset = 0;
+        csr_WE = 0;
+        int_taken = 0;
+        mret_exec = 0;
         
         case(PS)
             ST_INIT: begin
@@ -70,8 +75,13 @@ module CU_FSM(
                     memRDEN2 = 1'b1;
                 end
                 else begin
-                    NS = ST_FETCH;
+                    if (INTR == 1'b1)
+                        NS = ST_INTRPT;
+                    else begin
+                        NS = ST_FETCH;
+                    end
                     PCWrite = 1'b1;
+
                     case (ir6_0)
                         // R-Type
                         7'b0110011: begin
@@ -115,6 +125,20 @@ module CU_FSM(
                             regWrite = 1'b1;
                         end
                         
+                        // Interrupts
+                        7'b1110011: begin
+                            // CSRRW
+                            regWrite = 1'b1;
+                            csr_WE = 1'b1;
+                            
+                            // MRET
+                            if (ir14_12 == 3'b000) begin
+                                regWrite = 1'b0;
+                                mret_exec = 1'b1;
+                            end
+
+                        end
+                        
                         // Default opcode?
                         default: begin
                             PCWrite = 1'b1;
@@ -124,9 +148,18 @@ module CU_FSM(
                 end
             end
             ST_WRITEBACK: begin
-                NS = ST_FETCH;
+                if (INTR == 1'b1)
+                    NS = ST_INTRPT;
+                else begin
+                    NS = ST_FETCH;
+                end
                 PCWrite = 1'b1;
                 regWrite = 1'b1;
+            end
+            ST_INTRPT: begin
+                NS = ST_FETCH;
+                PCWrite = 1'b1;
+                int_taken = 1'b1;
             end
             default: begin
                 NS = ST_INIT;
@@ -134,3 +167,4 @@ module CU_FSM(
         endcase                   
     end
 endmodule
+
