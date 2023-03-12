@@ -57,8 +57,12 @@ module CSR(
                 RD = csr_ram[1];
             12'h341:
                 RD = csr_ram[2];
+            default:
+                RD = 31'hBAD;
         endcase
+        CSR_MTVEC = csr_ram[0];
         CSR_MSTATUS = csr_ram[1][3];
+        CSR_MEPC = csr_ram[2];
     end
             
     always_ff @ (posedge CLK) begin
@@ -66,7 +70,7 @@ module CSR(
         if (RST == 1'b1) begin
             int i;
             for (i = 0; i < 3; i = i + 1) begin
-                csr_ram[i] = 0;
+                csr_ram[i] <= 0;
             end
         end
 
@@ -94,8 +98,6 @@ module CSR(
             csr_ram[1][7] <= csr_ram[1][3];
             // Clear the MIE bit.
             csr_ram[1][3] <= 1'b0;
-
-            CSR_MTVEC <= csr_ram[0];
         end
         
         // MRET
@@ -108,3 +110,4 @@ module CSR(
     end
     
 endmodule
+
