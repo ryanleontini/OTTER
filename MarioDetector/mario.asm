@@ -1,11 +1,12 @@
 # Coordinates are given in row major format
 # (col,row) = (x,y)
-# draw_background, draw_horizontal_line, draw_vertical_line, draw_dot subroutines written by J. Calllenes and P. Hummel
-# draw Mario written by Ryan Leontini
+# draw_background, draw_horizontal_line, draw_vertical_line, draw_dot subroutines written by J. Calllenes and P. Hummel.
+# draw_mario written by Ryan Leontini.
 
 .eqv BG_COLOR, 0x0F	 # light blue (0/7 red, 3/7 green, 3/3 blue)
 .eqv VG_ADDR, 0x11000120
 .eqv VG_COLOR, 0x11000140
+.eqv RED_COLOR, 0xE0
 .eqv PEACH_COLOR, 0xD5
 
 main:
@@ -17,28 +18,29 @@ main:
 	call draw_background  # must not modify s2, s3
 
     # Draw Mario
-	li a3, 0xE0		# color red (7/7 red, 0/7 green, 0/3 blue)
-	li a0, 20		# start X coordinate
+    # Hat
+	li a3, RED_COLOR		# color red (7/7 red, 0/7 green, 0/3 blue)
+	li a0, 20		# start X coordinate 
 	li a1, 20		# Y coordinate
-	li a2, 25		# ending X coordinate
+	li a2, 25		# ending X coordinate (+5)
 	call draw_horizontal_line  # must not modify: a3, s2, s3
 
-    li a3, 0xE0		# color red (7/7 red, 0/7 green, 0/3 blue)
-	li a0, 19		# start X coordinate
-	li a1, 21		# Y coordinate
-	li a2, 28		# ending X coordinate
-	call draw_horizontal_line  # must not modify: a3, s2, s3
-
-    li a3, PEACH_COLOR		# color peach (6/7 red, 5/7 green, 1/3 blue)
-	li a0, 19		# start X coordinate
-	li a1, 22		# Y coordinate
-	li a2, 26		# ending X coordinate
+    li a3, RED_COLOR		# color red (7/7 red, 0/7 green, 0/3 blue)
+	li a0, 19		# start X coordinate (-1)
+	li a1, 21		# Y coordinate (+1)
+	li a2, 28		# ending X coordinate (+9)
 	call draw_horizontal_line  # must not modify: a3, s2, s3
 
     li a3, PEACH_COLOR		# color peach (6/7 red, 5/7 green, 1/3 blue)
-	li a0, 18		# start X coordinate
-	li a1, 23		# Y coordinate
-	li a2, 28		# ending X coordinate
+	li a0, 19		# start X coordinate
+	li a1, 22		# Y coordinate (+1)
+	li a2, 26		# ending X coordinate (+7)
+	call draw_horizontal_line  # must not modify: a3, s2, s3
+
+    li a3, PEACH_COLOR		# color peach (6/7 red, 5/7 green, 1/3 blue)
+	li a0, 18		# start X coordinate (-1)
+	li a1, 23		# Y coordinate (+1)
+	li a2, 28		# ending X coordinate (+10)
 	call draw_horizontal_line  # must not modify: a3, s2, s3
 
     li a3, PEACH_COLOR		# color peach (6/7 red, 5/7 green, 1/3 blue)
@@ -57,6 +59,13 @@ main:
 	li a0, 20		# start X coordinate
 	li a1, 26		# Y coordinate
 	li a2, 27		# ending X coordinate
+	call draw_horizontal_line  # must not modify: a3, s2, s3
+
+    # Body
+    li a3, RED_COLOR		# color peach (6/7 red, 5/7 green, 1/3 blue)
+	li a0, 19		# start X coordinate
+	li a1, 27		# Y coordinate
+	li a2, 25		# ending X coordinate
 	call draw_horizontal_line  # must not modify: a3, s2, s3
 
     # li a0, 10		# X coordinate
@@ -92,24 +101,12 @@ main:
 	# call draw_vertical_line  # must not modify s2, s3
 
 
+
+
 done:	j done # continuous loop
 
 draw_mario:
-    li a0, 0
-    li a1, 0
-    # Hat
-    li a3, 0xE0		# color red (7/7 red, 0/7 green, 0/3 blue)
-    addi a0, a4, 3	# start X coordinate
-    addi a1, a5, 1  # Y coordinate
-    li a2, 0
-    addi a2, a0, 5  # end X coordinate
-	call draw_horizontal_line  # must not modify: a3, s2, s3
 
-    addi a0, a4, 2	# start X coordinate
-    addi a1, a5, 2  # Y coordinate
-    li a2, 0
-    addi a2, a0, 9
-	call draw_horizontal_line  # must not modify: a3, s2, s3
 
     ret
     # Face
